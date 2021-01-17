@@ -1,0 +1,17 @@
+{
+  "name": "stunning-adventure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/chicofariasneto/stunning-adventure.git",
+  "author": "chicofariasneto <chicofariasneto@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
