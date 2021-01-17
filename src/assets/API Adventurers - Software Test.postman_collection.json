@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "013058ac-2fee-4b40-b403-d40a23c34614",
+		"name": "API Adventurers - Software Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Adventurers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Response is valid\", function () {\r",
+							"    pm.expect(jsonData.adventurers).to.be.an(\"array\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/adventurers",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"adventurers"
+					]
+				},
+				"description": "GET all adventurers"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Adventurer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"name\", \"José da Silva\");\r",
+							"pm.collectionVariables.set(\"age\", 20);\r",
+							"pm.collectionVariables.set(\"height\", 80.00);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"  pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Response is valid\", function () {\r",
+							"    pm.expect(jsonData.adventurer).to.be.an(\"object\");\r",
+							"    pm.expect(jsonData.adventurer.id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.adventurer.name).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.adventurer.age).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.adventurer.height).to.be.a(\"number\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"{{name}}\",\r\n\t\"age\": {{age}},\r\n\t\"height\": {{height}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/adventurers",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"adventurers"
+					]
+				},
+				"description": "POST save an adventurer"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Adventurer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"id\", 6);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const idQuery = pm.request.idQuery;\r",
+							"pm.test(\"Response is valid\", function () {\r",
+							"    pm.expect(jsonData.adventurers).to.be.an(\"array\");\r",
+							"    for (const adventurer of jsonData.adventurers) {\r",
+							"        pm.expect(adventurer.id).to.be.a(\"number\");\r",
+							"        pm.expect(adventurer.id).not.eql(idQuery);\r",
+							"        pm.expect(adventurer.name).to.be.a(\"string\");\r",
+							"        pm.expect(adventurer.age).to.be.a(\"number\");\r",
+							"        pm.expect(adventurer.height).to.be.a(\"number\");\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/adventurers?id={{id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"adventurers"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				},
+				"description": "Delete an adventurer"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "age",
+			"value": ""
+		},
+		{
+			"key": "height",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		}
+	]
+}
